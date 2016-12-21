@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
 
         adapter = new Adapter();
-        //recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         mainPresenter.getRankData();
     }
@@ -39,11 +39,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Override
     public void setRanks(List<RankInfo> ranks) {
         adapter.setListRanks(ranks);
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void setPlayers(List<PlayerInfo> player) {
-        adapter.setListPlayers(player);
+        adapter.notifyDataSetChanged();
     }
 }

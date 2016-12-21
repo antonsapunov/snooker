@@ -24,6 +24,8 @@ public class RankInfo {
     @Expose
     private String type;
 
+    private String name;
+
     public Integer getID() {
         return iD;
     }
@@ -70,5 +72,12 @@ public class RankInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

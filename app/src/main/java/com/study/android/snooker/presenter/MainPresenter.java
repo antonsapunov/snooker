@@ -1,6 +1,5 @@
 package com.study.android.snooker.presenter;
 
-
 import android.util.Log;
 
 import com.study.android.snooker.model.*;
@@ -8,11 +7,7 @@ import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.view.MainView;
 
-
-import java.util.List;
-
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -27,50 +22,26 @@ public class MainPresenter implements MainPresenterInterface{
 
     @Override
     public void getRankData() {
-
-        Observable<List<RankInfo>> dataObservable = snooker.getRanks();
-
-        dataObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<RankInfo>>() {
-                    @Override
-                    public void onCompleted() {
-
+        Observable.zip(
+                snooker.getRanks().subscribeOn(Schedulers.newThread()),
+                snooker.getPlayers().subscribeOn(Schedulers.newThread()),
+                (rankInfos, playerInfos) -> {
+                    for(RankInfo rankInfo : rankInfos){
+                        for(PlayerInfo playerInfo : playerInfos){
+                            if(rankInfo.getPlayerID().equals(playerInfo.getID())) {
+                                if(playerInfo.getSurnameFirst()) {
+                                    rankInfo.setName(playerInfo.getLastName() + " "
+                                            + playerInfo.getFirstName());
+                                }
+                                else rankInfo.setName(playerInfo.getFirstName() + " "
+                                        + playerInfo.getLastName());
+                                break;
+                            }
+                        }
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<RankInfo> rankInfos) {
-                        getPlayerData();
-                        mainView.setRanks(rankInfos);
-
-                    }
-                });
-    }
-
-    private void getPlayerData() {
-        Observable<List<PlayerInfo>> dataObservable = snooker.getPlayers();
-        dataObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<PlayerInfo>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<PlayerInfo> playerInfo) {
-                        mainView.setPlayers(playerInfo);
-                    }
-                });
+                    return rankInfos;
+                }
+        ).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(mainView::setRanks);
     }
 }
