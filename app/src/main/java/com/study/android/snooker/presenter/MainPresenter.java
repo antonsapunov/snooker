@@ -9,7 +9,6 @@ import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.view.MainView;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -31,7 +30,6 @@ public class MainPresenter implements MainPresenterInterface{
 
         Observable<List<RankInfo>> dataObservable = snooker.getRanks();
 
-        Log.d(TAG, "my " + dataObservable);
         dataObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<RankInfo>>() {
@@ -47,25 +45,32 @@ public class MainPresenter implements MainPresenterInterface{
 
                     @Override
                     public void onNext(List<RankInfo> rankInfos) {
-                        Log.d(TAG, "" +rankInfos.size());
+                        getPlayerData();
                         mainView.setRanks(rankInfos);
+
                     }
                 });
     }
 
-    @Override
-    public String getName(int playerID) {
-        Observable<PlayerInfo> dataObservable = snooker.getPlayer(playerID);
-        final String[] name = new String[1];
+    private void getPlayerData() {
+        Observable<List<PlayerInfo>> dataObservable = snooker.getPlayers();
         dataObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(player -> player.getFirstName() + " "
-                        + player.getMiddleName() + " "
-                        + player.getLastName())
-                .subscribe(player ->
-                {
-                    name[0] = player;
+                .subscribe(new Subscriber<List<PlayerInfo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<PlayerInfo> playerInfo) {
+                        mainView.setPlayers(playerInfo);
+                    }
                 });
-        return name[0];
     }
 }

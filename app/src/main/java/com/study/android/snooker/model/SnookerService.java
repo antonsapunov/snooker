@@ -8,13 +8,12 @@ import java.util.List;
 import rx.Observable;
 
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public interface SnookerService {
 
     @GET("/?rt=MoneyRankings&s=2016")
     Observable<List<RankInfo>> getRanks();
 
-    @GET("/")
-    Observable<PlayerInfo> getPlayer(@Query("p") int p);
+    @GET("/?t=10&st=p&s=2016")
+    Observable<List<PlayerInfo>> getPlayers();
 }

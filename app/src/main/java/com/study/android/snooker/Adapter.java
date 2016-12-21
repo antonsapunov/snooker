@@ -1,21 +1,32 @@
 package com.study.android.snooker;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
 
+
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<RankInfo> ranks;
+    private List<PlayerInfo> players;
+    private static final String TAG = "myLogs";
 
-    public void setList(List<RankInfo> ranks) {
+    public Adapter() {
+    }
+
+    public void setListRanks(List<RankInfo> ranks) {
         this.ranks = ranks;
+    }
+    public void setListPlayers(List<PlayerInfo> players) {
+        this.players = players;
     }
 
     @Override
@@ -27,9 +38,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         RankInfo rank = ranks.get(position);
-        holder.position.setText("" + rank.getPosition() +".");
-        holder.name.setText("" + rank.getPlayerID());
-        holder.sum.setText("" + rank.getSum());
+//        Log.d(TAG, ""+rank.getPlayerID());
+//        int listNumber = 0;
+        Log.d(TAG, "" + players.size());
+//        for (int i = 0; i < players.size(); i++) {
+//            if(players.get(0).getID().equals(rank.getPlayerID()))
+//                listNumber = i;
+//        }
+//        Log.d(TAG, "listnumber " + listNumber);
+//        PlayerInfo player = players.get(listNumber); // playerID не соответствует номеру массива
+        holder.position.setText(String.valueOf(rank.getPosition()));
+//        holder.name.setText(player.getFirstName() + " "+ player.getMiddleName() + " " + player.getLastName());
+        holder.sum.setText(String.valueOf(rank.getSum()));
     }
 
     @Override

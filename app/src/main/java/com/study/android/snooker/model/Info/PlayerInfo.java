@@ -66,6 +66,8 @@ public class PlayerInfo {
     @Expose
     private String info;
 
+    private String name = firstName + " " + middleName + " " + lastName;
+
     public Integer getID() {
         return iD;
     }
@@ -224,5 +226,13 @@ public class PlayerInfo {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName (String name){
+        this.name = name;
     }
 }
