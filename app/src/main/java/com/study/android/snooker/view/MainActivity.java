@@ -1,5 +1,6 @@
 package com.study.android.snooker.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +9,6 @@ import android.util.Log;
 
 import com.study.android.snooker.Adapter;
 import com.study.android.snooker.R;
-import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.presenter.MainPresenter;
 import com.study.android.snooker.presenter.MainPresenterInterface;
@@ -29,9 +29,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
+
+        adapter.setListener(this::startInfoActivity);
 
         mainPresenter.getRankData();
     }
@@ -40,5 +41,11 @@ public class MainActivity extends AppCompatActivity implements MainView{
     public void setRanks(List<RankInfo> ranks) {
         adapter.setListRanks(ranks);
         adapter.notifyDataSetChanged();
+    }
+
+    private void startInfoActivity(int playerID) {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        intent.putExtra(PlayerActivity.EXTRA_playerID, playerID);
+        startActivity(intent);
     }
 }

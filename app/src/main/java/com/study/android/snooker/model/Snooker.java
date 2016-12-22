@@ -5,6 +5,7 @@ import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
 
+import retrofit2.http.Query;
 import rx.Observable;
 
 import retrofit2.Retrofit;
@@ -32,5 +33,11 @@ public class Snooker implements SnookerService{
     public Observable<List<PlayerInfo>> getPlayers() {
         return snookerService.getPlayers();
     }
+
+    @Override
+    public Observable<List<PlayerInfo>> getPlayer(@Query("p") int p) {
+        return snookerService.getPlayer(p);
+    }
+
 
 }

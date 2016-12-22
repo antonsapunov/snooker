@@ -7,21 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
+
+import rx.subjects.PublishSubject;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<RankInfo> ranks;
     private static final String TAG = "myLogs";
+    private Listener listener;
 
     public Adapter() {
     }
 
     public void setListRanks(List<RankInfo> ranks) {
         this.ranks = ranks;
+    }
+
+    public void setListener(Listener listener){
+        this.listener = listener;
     }
 
     @Override
@@ -31,11 +39,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        View textView = holder.itemView;
         RankInfo rank = ranks.get(position);
         holder.position.setText(String.valueOf(rank.getPosition()) + ". ");
         holder.name.setText(rank.getName());
         holder.sum.setText("£ " + String.valueOf(rank.getSum()));
+
+        textView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onClick(rank.getPlayerID());
+            }
+        });
     }
 
     @Override
