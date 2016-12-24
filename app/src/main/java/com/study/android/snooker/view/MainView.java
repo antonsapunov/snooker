@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MainView {
     void setRanks(List<RankInfo> rank);
+    boolean isOnline();
+    void noConnection();
 }

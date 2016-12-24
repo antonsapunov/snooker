@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/fullName"
             android:id="@+id/forename"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:visibility="gone"/>
 
         <TextView
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15sp"
             android:id="@+id/fullName"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textColor="@color/green"/>
     </LinearLayout>
 
@@ -75,14 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/birth"
-            android:textSize="17sp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/birthday"
             android:layout_marginLeft="15sp"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textColor="@color/green"/>
     </LinearLayout>
 
@@ -98,32 +98,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nationality"
-            android:textSize="17sp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/nationality"
             android:layout_marginLeft="15sp"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textColor="@color/green"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/twit"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/twitter"/>
+                android:text="@string/twitter"
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,6 +135,7 @@
                 android:layout_marginLeft="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/twitter"
+                android:textSize="16sp"
                 android:onClick="onTwitter"/>
         </LinearLayout>
 
@@ -140,12 +144,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/url"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/url"/>
+                android:text="@string/url"
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,6 +159,7 @@
                 android:id="@+id/urlName"
                 android:textColor="@color/twitter"
                 android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_marginLeft="15sp"
                 android:onClick="onUrl"/>
         </LinearLayout>
@@ -167,7 +174,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/read"/>
+                android:text="@string/read"
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -175,6 +183,7 @@
                 android:id="@+id/bioPageLink"
                 android:textColor="@color/twitter"
                 android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_marginLeft="15sp"
                 android:onClick="onBioPage"/>
         </LinearLayout>

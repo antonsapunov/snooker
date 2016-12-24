@@ -15,7 +15,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PlayerPresenter implements PlayerPresenterInterface{
-    private static final String TAG = "myLogs";
     private final SnookerService snooker = new Snooker();
     private final PlayerView playerView;
 
@@ -25,6 +24,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
 
     @Override
     public void getPlayerData(int p) {
+
         Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
                 dataObservable.subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -41,7 +41,6 @@ public class PlayerPresenter implements PlayerPresenterInterface{
 
                             @Override
                             public void onNext(List<PlayerInfo> playerInfos) {
-                                Log.d(TAG, "size = " + playerInfos.size());
                                 playerView.setPlayer(playerInfos.get(0));
                             }
                         });

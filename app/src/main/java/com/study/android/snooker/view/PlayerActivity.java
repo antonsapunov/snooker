@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
     public static final String EXTRA_playerID = "playerID";
     PlayerPresenterInterface playerPresenter = new PlayerPresenter(this);
-    private static final String TAG = "myLogs";
     private PlayerInfo player;
 
     @Override

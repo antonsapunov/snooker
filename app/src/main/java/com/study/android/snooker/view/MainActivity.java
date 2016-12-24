@@ -1,12 +1,15 @@
 package com.study.android.snooker.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.study.android.snooker.Adapter;
 import com.study.android.snooker.R;
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
     MainPresenterInterface mainPresenter = new MainPresenter(this);
     RecyclerView recyclerView;
     Adapter adapter;
-    private static final String TAG = "myLogs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,22 @@ public class MainActivity extends AppCompatActivity implements MainView{
         adapter.setListRanks(ranks);
         adapter.notifyDataSetChanged();
         findViewById(R.id.mainProgressBar).setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean isOnline(){
+        if(getApplicationContext() == null) {
+            return false;
+        }
+        ConnectivityManager cm =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void noConnection(){
+        Toast.makeText(this, "Нет подключения к интернету", Toast.LENGTH_LONG).show();
     }
 
     private void startInfoActivity(int playerID) {

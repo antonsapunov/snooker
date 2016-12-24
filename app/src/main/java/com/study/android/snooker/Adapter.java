@@ -1,24 +1,19 @@
 package com.study.android.snooker;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
-
-import rx.subjects.PublishSubject;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<RankInfo> ranks;
-    private static final String TAG = "myLogs";
     private Listener listener;
 
     public Adapter() {
