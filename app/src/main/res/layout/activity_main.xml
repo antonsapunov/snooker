@@ -4,7 +4,6 @@
                 android:id="@+id/activity_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/lightgray"
                 tools:context=".view.MainActivity">
     <TextView
         android:layout_width="wrap_content"
@@ -13,7 +12,16 @@
         android:text="@string/worldRaiting"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:id="@+id/worldRaiting"/>
+        android:id="@+id/worldRaiting"
+        android:layout_marginBottom="5sp"/>
+
+    <ProgressBar
+        android:id="@+id/mainProgressBar"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

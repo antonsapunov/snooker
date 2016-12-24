@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.study.android.snooker.Adapter;
 import com.study.android.snooker.R;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
     public void setRanks(List<RankInfo> ranks) {
         adapter.setListRanks(ranks);
         adapter.notifyDataSetChanged();
+        findViewById(R.id.mainProgressBar).setVisibility(View.GONE);
     }
 
     private void startInfoActivity(int playerID) {

@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Snooker</string>
     <string name="worldRaiting">Мировой рейтинг</string>
+    <string name="fullName">Полное имя: </string>
+    <string name="twitter">Twitter: </string>
+    <string name="birth">Родился: </string>
+    <string name="links">Ссылки: </string>
+    <string name="nationality">Национальность: </string>
+    <string name="url">Личный сайт: </string>
+    <string name="read">Прочитать про игрока: </string>
+    <string name="snooker.org">на snooker.org</string>
 </resources>
