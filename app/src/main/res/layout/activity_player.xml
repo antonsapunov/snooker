@@ -10,13 +10,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.study.android.snooker.view.PlayerActivity">
-    <ProgressBar
-        android:id="@+id/playerProgressBar"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_centerInParent="true"/>
 
     <RelativeLayout
             android:layout_width="wrap_content"
@@ -109,83 +102,80 @@
             android:textColor="@color/green"/>
     </LinearLayout>
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:id="@+id/twit"
         android:layout_below="@+id/nat"
-        android:layout_marginTop="30dp">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/twit"
-            android:visibility="gone"
-            android:layout_marginBottom="10dp">
+            android:text="@string/twitter"
+            android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/twitter"
-                android:layout_marginLeft="15sp"
-                android:textStyle="bold"
-                android:textColor="@color/twitter"
-                android:textSize="16sp"
-                android:onClick="onTwitter"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/url"
-            android:visibility="gone"
-            android:layout_marginBottom="10dp">
+            android:id="@+id/twitter"
+            android:layout_marginLeft="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            android:onClick="onTwitter"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/url"
-                android:textSize="16sp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/url"
+        android:layout_below="@+id/twit"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/urlName"
-                android:textColor="@color/twitter"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginLeft="15sp"
-                android:onClick="onUrl"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bioPage"
-            android:visibility="gone">
+            android:text="@string/url"
+            android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/read"
-                android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/urlName"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginLeft="15sp"
+            android:onClick="onUrl"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/bioPageLink"
-                android:textColor="@color/twitter"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginLeft="15sp"
-                android:onClick="onBioPage"/>
-        </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bioPage"
+        android:layout_below="@+id/url"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bioPageLink"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginLeft="15sp"
+            android:onClick="onBioPage"/>
     </LinearLayout>
 </RelativeLayout>

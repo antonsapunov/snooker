@@ -1,4 +1,4 @@
-package com.study.android.snooker;
+package com.study.android.snooker.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
@@ -37,10 +38,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         View textView = holder.itemView;
         RankInfo rank = ranks.get(position);
-        holder.position.setText(String.valueOf(rank.getPosition()) + ". ");
-        holder.name.setText(rank.getName());
-        holder.sum.setText("£ " + String.valueOf(rank.getSum()));
 
+        String mPositionField = String.valueOf(rank.getPosition()) + ". ";
+        String mNameField = rank.getName();
+        String mSumField = "£ " + String.valueOf(rank.getSum());
+
+        holder.mPosition.setText(mPositionField);
+        holder.mName.setText(mNameField);
+        holder.mSum.setText(mSumField);
         textView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClick(rank.getPlayerID());
@@ -56,15 +61,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView position;
-        TextView name;
-        TextView sum;
+        TextView mPosition;
+        TextView mName;
+        TextView mSum;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            position = (TextView) itemView.findViewById(R.id.position);
-            name = (TextView) itemView.findViewById(R.id.name);
-            sum = (TextView) itemView.findViewById(R.id.sum);
+            mPosition = (TextView) itemView.findViewById(R.id.position);
+            mName = (TextView) itemView.findViewById(R.id.name);
+            mSum = (TextView) itemView.findViewById(R.id.sum);
         }
     }
 }

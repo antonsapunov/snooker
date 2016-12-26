@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.study.android.snooker.Adapter;
+import com.study.android.snooker.adapter.Adapter;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.presenter.MainPresenter;

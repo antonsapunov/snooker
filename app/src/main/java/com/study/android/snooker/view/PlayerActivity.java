@@ -35,6 +35,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
     @Override
     public void setPlayer(PlayerInfo player) {
+
         ImageView imageView = (ImageView) findViewById(R.id.picture);
         TextView fullName = (TextView) findViewById(R.id.fullName);
         TextView twitter = (TextView) findViewById(R.id.twitter);
@@ -43,19 +44,29 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         TextView urlName = (TextView) findViewById(R.id.urlName);
         TextView bioPageLink = (TextView) findViewById(R.id.bioPageLink);
 
+        String mFirstName = player.getFirstName();
+        String mMiddleName = player.getMiddleName();
+        String mLastName = player.getLastName();
+        String mPhoto = player.getPhoto();
+        String mBorn = player.getBorn();
+        String mNationality = player.getNationality();
+        String mTwitter = player.getTwitter();
+        String mUrl = player.getURL();
+        String mBioPage = player.getBioPage();
+
         if(player.getSurnameFirst()){
-            getSupportActionBar().setTitle(player.getLastName() + " " + player.getFirstName());
-            fullName.setText(player.getLastName() + " " + player.getMiddleName() + " " + player.getFirstName());
+            getSupportActionBar().setTitle(mLastName + " " + mFirstName);
+            fullName.setText(mLastName + " " + mMiddleName + " " + mFirstName);
         } else {
-            getSupportActionBar().setTitle(player.getFirstName() + " " + player.getLastName());
-            fullName.setText(player.getFirstName() + " " + player.getMiddleName() + " " + player.getLastName());
+            getSupportActionBar().setTitle(mFirstName + " " + mLastName);
+            fullName.setText(mFirstName + " " + mMiddleName + " " + mLastName);
         }
         findViewById(R.id.forename).setVisibility(View.VISIBLE);
-        if(player.getPhoto().equals("")) {
+        if(mPhoto.equals("")) {
             findViewById(R.id.photo).setVisibility(View.GONE);
         } else {
             Picasso.with(this)
-                    .load(player.getPhoto())
+                    .load(mPhoto)
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -68,37 +79,36 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
                         }
                     });
         }
-        if(!player.getBorn().equals("")) {
+        if(!mBorn.equals("")) {
             findViewById(R.id.birth).setVisibility(View.VISIBLE);
-            birthday.setText(player.getBorn());
+            birthday.setText(mBorn);
         }
-        if(!player.getNationality().equals("")) {
+        if(!mNationality.equals("")) {
             findViewById(R.id.nat).setVisibility(View.VISIBLE);
-            nationality.setText(player.getNationality());
+            nationality.setText(mNationality);
         }
-        if(!player.getTwitter().equals("")) {
+        if(!mTwitter.equals("")) {
             findViewById(R.id.twit).setVisibility(View.VISIBLE);
-            twitter.setText(player.getTwitter());
+            twitter.setText(mTwitter);
         }
-        if(!player.getURL().equals("")) {
+        if(!mUrl.equals("")) {
             findViewById(R.id.url).setVisibility(View.VISIBLE);
-            urlName.setText(player.getURL());
+            urlName.setText(mUrl);
         }
-        if(!player.getBioPage().equals("")) {
+        if(!mBioPage.equals("")) {
             findViewById(R.id.bioPage).setVisibility(View.VISIBLE);
             bioPageLink.setText(R.string.snooker_org);
         }
 
         this.player = player;
-        findViewById(R.id.playerProgressBar).setVisibility(View.GONE);
     }
 
     public void onTwitter(View view) {
+        String mTwitter = player.getTwitter();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
-            String twitterName = player.getTwitter();
-            String formattedTwitterAddress = "http://twitter.com/" + twitterName;
+            String formattedTwitterAddress = "http://twitter.com/" + mTwitter;
             Intent browseTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse(formattedTwitterAddress));
             startActivity(browseTwitter);
         } catch (Exception e) {
@@ -107,11 +117,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     }
 
     public void onUrl(View view) {
+        String mUrl = player.getURL();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
-            String url = player.getURL();
-            String formattedUrlAddress = "http://" + url;
+            String formattedUrlAddress = "http://" + mUrl;
             Intent browseURL = new Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrlAddress));
             startActivity(browseURL);
         } catch (Exception e) {
@@ -120,11 +130,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     }
 
     public void onBioPage(View view) {
+        String mBioPage = player.getBioPage();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
-            String bioPage = player.getBioPage();
-            Intent browseBioPage = new Intent(Intent.ACTION_VIEW, Uri.parse(bioPage));
+            Intent browseBioPage = new Intent(Intent.ACTION_VIEW, Uri.parse(mBioPage));
             startActivity(browseBioPage);
         } catch (Exception e) {
             e.printStackTrace();

@@ -21,8 +21,8 @@ public class MainPresenter implements MainPresenterInterface{
     public void getRankData() {
         if (mainView.isOnline()) {
             Observable.zip(
-                    snooker.getRanks().subscribeOn(Schedulers.newThread()),
-                    snooker.getPlayers().subscribeOn(Schedulers.newThread()),
+                    snooker.getRanks().subscribeOn(Schedulers.computation()),
+                    snooker.getPlayers().subscribeOn(Schedulers.computation()),
                     (rankInfos, playerInfos) -> {
                         for (RankInfo rankInfo : rankInfos) {
                             for (PlayerInfo playerInfo : playerInfos) {

@@ -15,6 +15,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PlayerPresenter implements PlayerPresenterInterface{
+    public static final int IndexOfFirstElement = 0;
     private final SnookerService snooker = new Snooker();
     private final PlayerView playerView;
 
@@ -26,7 +27,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
     public void getPlayerData(int p) {
 
         Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
-                dataObservable.subscribeOn(Schedulers.newThread())
+                dataObservable.subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<List<PlayerInfo>>() {
                             @Override
@@ -41,7 +42,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
 
                             @Override
                             public void onNext(List<PlayerInfo> playerInfos) {
-                                playerView.setPlayer(playerInfos.get(0));
+                                playerView.setPlayer(playerInfos.get(IndexOfFirstElement));
                             }
                         });
     }

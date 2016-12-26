@@ -14,15 +14,9 @@ public class RankInfo {
     @SerializedName("PlayerID")
     @Expose
     private Integer playerID;
-    @SerializedName("Season")
-    @Expose
-    private Integer season;
     @SerializedName("Sum")
     @Expose
     private Integer sum;
-    @SerializedName("Type")
-    @Expose
-    private String type;
 
     private String name;
 
@@ -30,49 +24,18 @@ public class RankInfo {
         return iD;
     }
 
-    public void setID(Integer iD) {
-        this.iD = iD;
-    }
-
     public Integer getPosition() {
         return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
     }
 
     public Integer getPlayerID() {
         return playerID;
     }
 
-    public void setPlayerID(Integer playerID) {
-        this.playerID = playerID;
-    }
-
-    public Integer getSeason() {
-        return season;
-    }
-
-    public void setSeason(Integer season) {
-        this.season = season;
-    }
-
     public Integer getSum() {
         return sum;
     }
 
-    public void setSum(Integer sum) {
-        this.sum = sum;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
     public String getName() {
         return name;
     }
