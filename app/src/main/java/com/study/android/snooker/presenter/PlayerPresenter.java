@@ -15,7 +15,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PlayerPresenter implements PlayerPresenterInterface{
-    public static final int IndexOfFirstElement = 0;
+    private static final int IndexOfFirstElement = 0;
     private final SnookerService snooker = new Snooker();
     private final PlayerView playerView;
 

@@ -13,7 +13,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Snooker implements SnookerService{
-    public static final String P = "p";
+    static final String P = "p";
     private static final String HTTP_API_SNOOKER_ORG = "http://api.snooker.org/";
     private SnookerService snookerService;
 
