@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,16 +20,21 @@ import com.study.android.snooker.presenter.MainPresenterInterface;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity implements MainView{
     MainPresenterInterface mainPresenter = new MainPresenter(this);
     RecyclerView recyclerView;
     Adapter adapter;
+    private SwipeRefreshLayout mSwipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(this);
         setContentView(R.layout.activity_main);
 
+        mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         recyclerView = (RecyclerView) findViewById(R.id.ranks_recycle_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -36,9 +42,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
 
-        adapter.setListener(this::startInfoActivity);
+        mainPresenter.getRankDataFromRealm();
+        mSwipe.setOnRefreshListener(() -> mainPresenter.getRankData());
 
-        mainPresenter.getRankData();
+        adapter.setListener(this::startInfoActivity);
     }
 
     @Override
@@ -62,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Override
     public void noConnection(){
         Toast.makeText(this, "Нет подключения к интернету", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void swipeBarDisable() {
+        mSwipe.setRefreshing(false);
     }
 
     private void startInfoActivity(int playerID) {

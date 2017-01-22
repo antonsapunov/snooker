@@ -40,6 +40,4 @@ public class Snooker implements SnookerService{
     public Observable<List<PlayerInfo>> getPlayer(@Query(P) int p) {
         return snookerService.getPlayer(p);
     }
-
-
 }

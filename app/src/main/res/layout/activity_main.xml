@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +17,6 @@
         android:id="@+id/worldRaiting"
         android:layout_marginBottom="5sp"
         android:textStyle="bold"/>
-
     <ProgressBar
         android:id="@+id/mainProgressBar"
         android:visibility="visible"
@@ -25,11 +25,18 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_centerInParent="true"/>
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/worldRaiting"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/ranks_recycle_view"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/worldRaiting">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/ranks_recycle_view"
+            android:layout_alignParentStart="true" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

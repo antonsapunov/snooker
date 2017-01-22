@@ -1,15 +1,22 @@
 package com.study.android.snooker.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.presenter.PlayerPresenter;
@@ -20,17 +27,18 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     public static final String EXTRA_playerID = "playerID";
     PlayerPresenterInterface playerPresenter = new PlayerPresenter(this);
     private PlayerInfo player;
+    private SwipeRefreshLayout mSwipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipePlayer);
         int playerID = (int) getIntent().getExtras().get(EXTRA_playerID);
 
-        playerPresenter.getPlayerData(playerID);
+        playerPresenter.getPlayerDataFromRealm(playerID);
+        mSwipe.setOnRefreshListener(() -> playerPresenter.getPlayerData(playerID));
     }
 
     @Override
@@ -65,19 +73,21 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         if(mPhoto.equals("")) {
             findViewById(R.id.photo).setVisibility(View.GONE);
         } else {
-            Picasso.with(this)
+            Glide.with(this)
                     .load(mPhoto)
-                    .into(imageView, new Callback() {
+                    .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
-                        public void onSuccess() {
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             findViewById(R.id.progressBar).setVisibility(View.GONE);
+                            return false;
                         }
-
-                        @Override
-                        public void onError() {
-
-                        }
-                    });
+                    })
+                    .into(imageView);
         }
         if(!mBorn.equals("")) {
             findViewById(R.id.birth).setVisibility(View.VISIBLE);
@@ -139,5 +149,26 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isOnline(){
+        if(getApplicationContext() == null) {
+            return false;
+        }
+        ConnectivityManager cm =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void noConnection(){
+        Toast.makeText(this, "Нет подключения к интернету", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void swipeBarDisable() {
+        mSwipe.setRefreshing(false);
     }
 }

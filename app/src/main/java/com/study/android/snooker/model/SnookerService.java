@@ -10,6 +10,8 @@ import rx.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+import static com.study.android.snooker.model.SnookerService.MONEY_RANKINGS_S_2016;
+
 public interface SnookerService {
 
     String MONEY_RANKINGS_S_2016 = "/?rt=MoneyRankings&s=2016";
