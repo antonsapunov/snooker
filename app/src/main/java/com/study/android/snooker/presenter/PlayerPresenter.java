@@ -1,7 +1,5 @@
 package com.study.android.snooker.presenter;
 
-import android.util.Log;
-
 import com.study.android.snooker.model.DatabaseActions;
 import com.study.android.snooker.model.DatabaseActionsInterface;
 import com.study.android.snooker.model.Info.PlayerInfo;
@@ -33,6 +31,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
             dataObservable.subscribeOn(Schedulers.computation())
                     .observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealmPlayer)
+                    .doOnError(throwable -> playerView.error())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(playerInfos -> playerView.setPlayer(playerInfos.get(IndexOfTheFirstElement)));
         } else {

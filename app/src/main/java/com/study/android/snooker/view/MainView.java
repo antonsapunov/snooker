@@ -9,5 +9,6 @@ public interface MainView {
     void noConnection();
     void swipeBarDisable();
     void progressBarDisable();
+    void error();
     boolean isOnline();
 }

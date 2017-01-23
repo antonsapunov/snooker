@@ -7,6 +7,7 @@ import com.study.android.snooker.view.MainView;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MainPresenter implements MainPresenterInterface{
@@ -42,6 +43,7 @@ public class MainPresenter implements MainPresenterInterface{
                     }
             ).observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
+                    .doOnError(throwable -> mainView.error())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(bar -> mainView.progressBarDisable())
                     .subscribe(mainView::setRanks);

@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements MainView{
         findViewById(R.id.mainProgressBar).setVisibility(View.GONE);
     }
 
+    @Override
+    public void error(){
+        Toast.makeText(this, "Ошибка. Повторите попытку позже", Toast.LENGTH_LONG).show();
+    }
+
     private void startInfoActivity(int playerID) {
         Intent intent = new Intent(this, PlayerActivity.class);
         intent.putExtra(PlayerActivity.EXTRA_playerID, playerID);

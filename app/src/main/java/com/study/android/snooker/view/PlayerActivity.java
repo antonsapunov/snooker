@@ -179,4 +179,9 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     public void progressBarDisable() {
         findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
+
+    @Override
+    public void error(){
+        Toast.makeText(this, "Ошибка. Повторите попытку позже", Toast.LENGTH_LONG).show();
+    }
 }
