@@ -47,9 +47,6 @@ public class PlayerInfo extends RealmObject{
     public Integer getID() {
         return iD;
     }
-    public void setiD(int iD) {
-        this.iD = iD;
-    }
 
     public String getFirstName() {
         return firstName;
