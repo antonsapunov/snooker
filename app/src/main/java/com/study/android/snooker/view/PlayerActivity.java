@@ -77,12 +77,15 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
                     .load(mPhoto)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target,
+                                                   boolean isFirstResource) {
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        public boolean onResourceReady(GlideDrawable resource, String model,
+                                                       Target<GlideDrawable> target, boolean isFromMemoryCache,
+                                                       boolean isFirstResource) {
                             findViewById(R.id.progressBar).setVisibility(View.GONE);
                             return false;
                         }
@@ -170,5 +173,10 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     @Override
     public void swipeBarDisable() {
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void progressBarDisable() {
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 }

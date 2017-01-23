@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
     public void setRanks(List<RankInfo> ranks) {
         adapter.setListRanks(ranks);
         adapter.notifyDataSetChanged();
-        findViewById(R.id.mainProgressBar).setVisibility(View.GONE);
     }
 
     @Override
@@ -74,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Override
     public void swipeBarDisable() {
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void progressBarDisable() {
+        findViewById(R.id.mainProgressBar).setVisibility(View.GONE);
     }
 
     private void startInfoActivity(int playerID) {

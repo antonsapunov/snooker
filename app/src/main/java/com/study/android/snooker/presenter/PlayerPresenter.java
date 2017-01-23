@@ -20,7 +20,6 @@ public class PlayerPresenter implements PlayerPresenterInterface{
     private final SnookerService snooker = new Snooker();
     private final PlayerView playerView;
     private final DatabaseActionsInterface mActions;
-    private static final String TAG = "My logs";
 
     public PlayerPresenter(PlayerView view) {
         playerView = view;
@@ -33,17 +32,17 @@ public class PlayerPresenter implements PlayerPresenterInterface{
             Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
             dataObservable.subscribeOn(Schedulers.computation())
                     .observeOn(Schedulers.computation())
-                    .doOnNext(playerInfos -> mActions.writeToRealmPlayer(playerInfos, p))
+                    .doOnNext(mActions::writeToRealmPlayer)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(playerInfos -> playerView.setPlayer(playerInfos.get(IndexOfTheFirstElement)));
-        } else playerView.noConnection();
-
+        } else {
+            playerView.noConnection();
+            playerView.progressBarDisable();
+        }
         playerView.swipeBarDisable();
     }
     @Override
     public void getPlayerDataFromRealm(int p) {
-        Log.v(TAG, "getPlayerFromRealm");
-
         if (mActions.hasPlayer(p))
             playerView.setPlayer(mActions.getPlayer(p).get(IndexOfTheFirstElement));
         else getPlayerData(p);

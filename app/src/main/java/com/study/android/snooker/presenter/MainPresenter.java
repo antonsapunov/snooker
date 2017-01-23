@@ -1,7 +1,5 @@
 package com.study.android.snooker.presenter;
 
-import android.util.Log;
-
 import com.study.android.snooker.model.*;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
@@ -15,7 +13,6 @@ public class MainPresenter implements MainPresenterInterface{
     private final SnookerService snooker = new Snooker();
     private final MainView mainView;
     private final DatabaseActionsInterface mActions;
-    private static final String TAG = "My logs";
 
     public MainPresenter(MainView view) {
         mainView = view;
@@ -46,18 +43,21 @@ public class MainPresenter implements MainPresenterInterface{
             ).observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(bar -> mainView.progressBarDisable())
                     .subscribe(mainView::setRanks);
-        } else mainView.noConnection();
-
+        } else {
+            mainView.noConnection();
+            mainView.progressBarDisable();
+        }
         mainView.swipeBarDisable();
     }
 
     @Override
     public void getRankDataFromRealm(){
-        Log.v(TAG, "getRanksFromRealm");
-
-        if (mActions.hasRanks())
+        if (mActions.hasRanks()) {
             mainView.setRanks(mActions.getRanks());
+            mainView.progressBarDisable();
+        }
         else getRankData();
     }
 }

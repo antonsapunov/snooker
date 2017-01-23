@@ -8,5 +8,6 @@ public interface MainView {
     void setRanks(List<RankInfo> rank);
     void noConnection();
     void swipeBarDisable();
+    void progressBarDisable();
     boolean isOnline();
 }

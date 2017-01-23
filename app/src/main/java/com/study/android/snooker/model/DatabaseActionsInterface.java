@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DatabaseActionsInterface {
     void writeToRealm(List<RankInfo> rankInfos);
-    void writeToRealmPlayer(List<PlayerInfo> playerInfos, int iD);
+    void writeToRealmPlayer(List<PlayerInfo> playerInfos);
 
     List<RankInfo> getRanks();
     List<PlayerInfo> getPlayer(int iD);

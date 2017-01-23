@@ -19,10 +19,9 @@ public class DatabaseActions implements DatabaseActionsInterface{
     }
 
     @Override
-    public void writeToRealmPlayer(List<PlayerInfo> playerInfos, int iD) {
+    public void writeToRealmPlayer(List<PlayerInfo> playerInfos) {
         Realm realm = Realm.getDefaultInstance();
         for (PlayerInfo playerInfo : playerInfos) {
-            playerInfo.setiD(iD);
             realm.executeTransaction(transaction -> realm.copyToRealmOrUpdate(playerInfo));
         }
         realm.close();
