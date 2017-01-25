@@ -7,7 +7,6 @@ import com.study.android.snooker.view.MainView;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MainPresenter implements MainPresenterInterface{

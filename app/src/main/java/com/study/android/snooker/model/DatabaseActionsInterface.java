@@ -5,9 +5,10 @@ import com.study.android.snooker.model.Info.RankInfo;
 
 import java.util.List;
 
+import io.realm.RealmObject;
+
 public interface DatabaseActionsInterface {
-    void writeToRealm(List<RankInfo> rankInfos);
-    void writeToRealmPlayer(List<PlayerInfo> playerInfos);
+    <T extends RealmObject> void writeToRealm(List<T> rankInfos);
 
     List<RankInfo> getRanks();
     List<PlayerInfo> getPlayer(int iD);

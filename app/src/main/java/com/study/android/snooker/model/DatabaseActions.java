@@ -6,23 +6,15 @@ import com.study.android.snooker.model.Info.RankInfo;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 
 public class DatabaseActions implements DatabaseActionsInterface{
 
     @Override
-    public void writeToRealm(List<RankInfo> rankInfos) {
+    public <T extends RealmObject> void writeToRealm(List<T> rankInfos) {
         Realm realm = Realm.getDefaultInstance();
-        for (RankInfo rankInfo : rankInfos) {
+        for (T rankInfo : rankInfos) {
             realm.executeTransaction(transaction -> realm.copyToRealmOrUpdate(rankInfo));
-        }
-        realm.close();
-    }
-
-    @Override
-    public void writeToRealmPlayer(List<PlayerInfo> playerInfos) {
-        Realm realm = Realm.getDefaultInstance();
-        for (PlayerInfo playerInfo : playerInfos) {
-            realm.executeTransaction(transaction -> realm.copyToRealmOrUpdate(playerInfo));
         }
         realm.close();
     }

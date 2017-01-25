@@ -30,7 +30,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
             Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
             dataObservable.subscribeOn(Schedulers.computation())
                     .observeOn(Schedulers.computation())
-                    .doOnNext(mActions::writeToRealmPlayer)
+                    .doOnNext(mActions::writeToRealm)
                     .doOnError(throwable -> playerView.error())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(playerInfos -> playerView.setPlayer(playerInfos.get(IndexOfTheFirstElement)));
