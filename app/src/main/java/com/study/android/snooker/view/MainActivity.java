@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
     @Override
     public void noConnection(){
-        Toast.makeText(this, "Нет подключения к интернету", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.NoInternet, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
     @Override
     public void error(){
-        Toast.makeText(this, "Ошибка. Повторите попытку позже", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.Error, Toast.LENGTH_LONG).show();
     }
 
     private void startInfoActivity(int playerID) {

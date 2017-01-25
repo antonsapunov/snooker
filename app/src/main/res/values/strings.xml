@@ -9,4 +9,6 @@
     <string name="url">Личный сайт: </string>
     <string name="read">Прочитать про игрока: </string>
     <string name="snooker.org">на snooker.org</string>
+    <string name="NoInternet">Нет подключения к интернету</string>
+    <string name="Error">Ошибка. Повторите попытку позже</string>
 </resources>
