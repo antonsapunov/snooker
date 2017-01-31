@@ -13,14 +13,14 @@ import retrofit2.http.Query;
 public interface SnookerService {
 
     String MONEY_RANKINGS_S_2016 = "/?rt=MoneyRankings&s=2016";
-    String Players_S_2016 = "/?t=10&st=p&s=2016";
+    String PLAYERS_S_2016 = "/?t=10&st=p&s=2016";
 
     @GET(MONEY_RANKINGS_S_2016)
     Observable<List<RankInfo>> getRanks();
 
-    @GET(Players_S_2016)
+    @GET(PLAYERS_S_2016)
     Observable<List<PlayerInfo>> getPlayers();
 
     @GET("/")
-    Observable<List<PlayerInfo>> getPlayer(@Query(Snooker.P) int p);
+    Observable<List<PlayerInfo>> getPlayer(@Query(Snooker.PLAYER_ID) int player_id);
 }

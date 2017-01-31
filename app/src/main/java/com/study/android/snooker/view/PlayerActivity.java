@@ -24,9 +24,11 @@ import com.study.android.snooker.presenter.PlayerPresenterInterface;
 
 public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
-    public static final String EXTRA_playerID = "playerID";
-    PlayerPresenterInterface playerPresenter = new PlayerPresenter(this);
-    private PlayerInfo player;
+    public static final String EXTRA_PLAYER_ID = "playerID";
+    public static final String HTTP_TWITTER_COM = "http://twitter.com/";
+    public static final String HTTP = "http://";
+    private PlayerPresenterInterface mPlayerPresenter = new PlayerPresenter(this);
+    private PlayerInfo mPlayer;
     private SwipeRefreshLayout mSwipe;
 
     @Override
@@ -35,49 +37,24 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         setContentView(R.layout.activity_player);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipePlayer);
-        int playerID = (int) getIntent().getExtras().get(EXTRA_playerID);
+        int playerID = (int) getIntent().getExtras().get(EXTRA_PLAYER_ID);
 
-        playerPresenter.getPlayerDataFromRealm(playerID);
-        mSwipe.setOnRefreshListener(() -> playerPresenter.getPlayerData(playerID));
+        mPlayerPresenter.getPlayerDataFromRealm(playerID);
+        mSwipe.setOnRefreshListener(() -> mPlayerPresenter.getPlayerData(playerID));
     }
 
     @Override
     public void setPlayer(PlayerInfo player) {
 
+        mPlayer = player;
+
         ImageView imageView = (ImageView) findViewById(R.id.picture);
-        TextView fullName = (TextView) findViewById(R.id.fullName);
-        TextView twitter = (TextView) findViewById(R.id.twitter);
-        TextView birthday = (TextView) findViewById(R.id.birthday);
-        TextView nationality = (TextView) findViewById(R.id.nationality);
-        TextView urlName = (TextView) findViewById(R.id.urlName);
-        TextView bioPageLink = (TextView) findViewById(R.id.bioPageLink);
-
-        String mFirstName = player.getFirstName();
-        String mMiddleName = player.getMiddleName();
-        String mLastName = player.getLastName();
-        String mPhoto = player.getPhoto();
-        String mBorn = player.getBorn();
-        String mNationality = player.getNationality();
-        String mTwitter = player.getTwitter();
-        String mUrl = player.getURL();
-        String mBioPage = player.getBioPage();
-
-        //TODO use ternary operator + string.format pattern instead of if else.
-        if(player.getSurnameFirst()){
-            getSupportActionBar().setTitle(mLastName + " " + mFirstName);
-            fullName.setText(mLastName + " " + mMiddleName + " " + mFirstName);
-        } else {
-            getSupportActionBar().setTitle(mFirstName + " " + mLastName);
-            fullName.setText(mFirstName + " " + mMiddleName + " " + mLastName);
-        }
-
-        findViewById(R.id.forename).setVisibility(View.VISIBLE);
-        //TODO Why so complex, why not use mPhoto.isEmpty() ?
-        if(mPhoto.equals("")) {
-            findViewById(R.id.photo).setVisibility(View.GONE);
+        String photo = player.getPhoto();
+        if(photo.isEmpty()) {
+            makeGone(R.id.photo);
         } else {
             Glide.with(this)
-                    .load(mPhoto)
+                    .load(photo)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target,
@@ -89,44 +66,79 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
                         public boolean onResourceReady(GlideDrawable resource, String model,
                                                        Target<GlideDrawable> target, boolean isFromMemoryCache,
                                                        boolean isFirstResource) {
-                            findViewById(R.id.progressBar).setVisibility(View.GONE);
+                            makeGone(R.id.progressBar);
                             return false;
                         }
                     })
                     .into(imageView);
         }
-        if(!mBorn.equals("")) {
-            findViewById(R.id.birth).setVisibility(View.VISIBLE);
-            birthday.setText(mBorn);
-        }
-        if(!mNationality.equals("")) {
-            findViewById(R.id.nat).setVisibility(View.VISIBLE);
-            nationality.setText(mNationality);
-        }
-        if(!mTwitter.equals("")) {
-            findViewById(R.id.twit).setVisibility(View.VISIBLE);
-            twitter.setText(mTwitter);
-        }
-        if(!mUrl.equals("")) {
-            findViewById(R.id.url).setVisibility(View.VISIBLE);
-            urlName.setText(mUrl);
-        }
-        if(!mBioPage.equals("")) {
-            findViewById(R.id.bioPage).setVisibility(View.VISIBLE);
-            bioPageLink.setText(R.string.snooker_org);
-        }
-        //TODO allways remember about else block. What if you some of members was empty ?
+        TextView fullNameView = (TextView) findViewById(R.id.fullName);
+        String firstName = player.getFirstName();
+        String middleName = player.getMiddleName();
+        String lastName = player.getLastName();
 
-        this.player = player;
+        String playerName = String.format("%s %s", firstName, lastName);
+        String inversedPlayerName = String.format("%s %s", lastName, firstName);
+        getSupportActionBar().setTitle(player.getSurnameFirst() ? inversedPlayerName : playerName);
+
+        String fullPlayerName = String.format("%s %s %s", firstName, middleName, lastName);
+        String inversedFullPlayerName = String.format("%s %s %s", lastName, middleName, firstName);
+        if(!fullPlayerName.isEmpty()) {
+            makeVisible(R.id.full);
+            fullNameView.setText(player.getSurnameFirst() ? inversedFullPlayerName : fullPlayerName);
+        } else makeGone(R.id.full);
+
+        TextView birthdayView = (TextView) findViewById(R.id.birthday);
+        String born = player.getBorn();
+        if(!born.isEmpty()) {
+            makeVisible(R.id.birth);
+            birthdayView.setText(born);
+        } else makeGone(R.id.birth);
+
+        TextView nationalityView = (TextView) findViewById(R.id.nationality);
+        String nationality = player.getNationality();
+        if(!nationality.isEmpty()) {
+            makeVisible(R.id.nat);
+            nationalityView.setText(nationality);
+        } else makeGone(R.id.nat);
+
+        TextView twitterView = (TextView) findViewById(R.id.twitter);
+        String twitter = player.getTwitter();
+        if(!twitter.isEmpty()) {
+            makeVisible(R.id.twit);
+            twitterView.setText(twitter);
+        } else makeGone(R.id.twit);
+
+        TextView urlView = (TextView) findViewById(R.id.urlName);
+        String url = player.getURL();
+        if(!url.isEmpty()) {
+            makeVisible(R.id.url);
+            urlView.setText(url);
+        } else makeGone(R.id.url);
+
+        TextView bioPageView = (TextView) findViewById(R.id.bioPageLink);
+        String bioPage = player.getBioPage();
+
+        if(!bioPage.isEmpty()) {
+            makeVisible(R.id.bioPage);
+            bioPageView.setText(R.string.snooker);
+        } else makeGone(R.id.bioPage);
+    }
+
+    public void makeVisible(int layoutId){
+        findViewById(layoutId).setVisibility(View.VISIBLE);
+    }
+
+    public void makeGone(int layoutId){
+        findViewById(layoutId).setVisibility(View.GONE);
     }
 
     public void onTwitter(View view) {
-        String mTwitter = player.getTwitter();
+        String mTwitter = mPlayer.getTwitter();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
-            //TODO named constants instead of hardcode.
-            String formattedTwitterAddress = "http://twitter.com/" + mTwitter;
+            String formattedTwitterAddress = HTTP_TWITTER_COM + mTwitter;
             Intent browseTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse(formattedTwitterAddress));
             startActivity(browseTwitter);
         } catch (Exception e) {
@@ -135,11 +147,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     }
 
     public void onUrl(View view) {
-        String mUrl = player.getURL();
+        String mUrl = mPlayer.getURL();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
-            String formattedUrlAddress = "http://" + mUrl;
+            String formattedUrlAddress = HTTP + mUrl;
             Intent browseURL = new Intent(Intent.ACTION_VIEW, Uri.parse(formattedUrlAddress));
             startActivity(browseURL);
         } catch (Exception e) {
@@ -148,7 +160,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     }
 
     public void onBioPage(View view) {
-        String mBioPage = player.getBioPage();
+        String mBioPage = mPlayer.getBioPage();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {

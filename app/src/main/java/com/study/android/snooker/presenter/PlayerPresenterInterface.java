@@ -1,6 +1,6 @@
 package com.study.android.snooker.presenter;
 
 public interface PlayerPresenterInterface {
-    void getPlayerData(int p);
-    void getPlayerDataFromRealm(int p);
+    void getPlayerData(int player_id);
+    void getPlayerDataFromRealm(int player_id);
 }

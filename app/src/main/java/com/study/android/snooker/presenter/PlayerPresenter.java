@@ -14,36 +14,36 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PlayerPresenter implements PlayerPresenterInterface{
-    private static final int IndexOfTheFirstElement = 0;
-    private final SnookerService snooker = new Snooker();
-    private final PlayerView playerView;
+    private static final int INDEX_OF_FIRST_ELEMENT = 0;
+    private final SnookerService mSnooker = new Snooker();
+    private final PlayerView mPlayerView;
     private final DatabaseActionsInterface mActions;
 
     public PlayerPresenter(PlayerView view) {
-        playerView = view;
+        mPlayerView = view;
         mActions = new DatabaseActions();
     }
 
     @Override
-    public void getPlayerData(int p/*TODO descriptive naming*/) {
-        if (playerView.isOnline()) {
-            Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
+    public void getPlayerData(int player_id) {
+        if (mPlayerView.isOnline()) {
+            Observable<List<PlayerInfo>> dataObservable = mSnooker.getPlayer(player_id);
             dataObservable.subscribeOn(Schedulers.computation())
                     .observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
-                    .doOnError(throwable -> playerView.error())
+                    .doOnError(throwable -> mPlayerView.error())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(playerInfos -> playerView.setPlayer(playerInfos.get(IndexOfTheFirstElement)));
+                    .subscribe(playerInfos -> mPlayerView.setPlayer(playerInfos.get(INDEX_OF_FIRST_ELEMENT)));
         } else {
-            playerView.noConnection();
-            playerView.progressBarDisable();
+            mPlayerView.noConnection();
+            mPlayerView.progressBarDisable();
         }
-        playerView.swipeBarDisable();
+        mPlayerView.swipeBarDisable();
     }
     @Override
-    public void getPlayerDataFromRealm(int p) {
-        if (mActions.hasPlayer(p))
-            playerView.setPlayer(mActions.getPlayer(p).get(IndexOfTheFirstElement));
-        else getPlayerData(p);
+    public void getPlayerDataFromRealm(int player_id) {
+        if (mActions.hasPlayer(player_id))
+            mPlayerView.setPlayer(mActions.getPlayer(player_id).get(INDEX_OF_FIRST_ELEMENT));
+        else getPlayerData(player_id);
     }
 }

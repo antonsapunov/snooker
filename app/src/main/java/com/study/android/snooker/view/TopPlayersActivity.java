@@ -21,12 +21,9 @@ import com.study.android.snooker.presenter.MainPresenterInterface;
 import java.util.List;
 
 import io.realm.Realm;
-//TODO Naming must be more descriptive.
-public class MainActivity extends AppCompatActivity implements MainView{
-    //TODO access level must be more strict. use PRIVATE modifier.
-    MainPresenterInterface mainPresenter = new MainPresenter(this);
-    RecyclerView recyclerView;
-    Adapter adapter;
+public class TopPlayersActivity extends AppCompatActivity implements TopPlayersView {
+    private MainPresenterInterface mMainPresenter = new MainPresenter(this);
+    private Adapter mAdapter;
     private SwipeRefreshLayout mSwipe;
 
     @Override
@@ -36,23 +33,23 @@ public class MainActivity extends AppCompatActivity implements MainView{
         setContentView(R.layout.activity_main);
 
         mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        recyclerView = (RecyclerView) findViewById(R.id.ranks_recycle_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ranks_recycle_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new Adapter();
-        recyclerView.setAdapter(adapter);
+        mAdapter = new Adapter();
+        recyclerView.setAdapter(mAdapter);
 
-        mainPresenter.getRankDataFromRealm();
-        mSwipe.setOnRefreshListener(() -> mainPresenter.getRankData());
+        mMainPresenter.getRankDataFromRealm();
+        mSwipe.setOnRefreshListener(() -> mMainPresenter.getRankData());
 
-        adapter.setListener(this::startInfoActivity);
+        mAdapter.setListener(this::startInfoActivity);
     }
 
     @Override
     public void setRanks(List<RankInfo> ranks) {
-        adapter.setListRanks(ranks);
-        adapter.notifyDataSetChanged();
+        mAdapter.setListRanks(ranks);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
     private void startInfoActivity(int playerID) {
         Intent intent = new Intent(this, PlayerActivity.class);
-        intent.putExtra(PlayerActivity.EXTRA_playerID, playerID);
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, playerID);
         startActivity(intent);
     }
 }

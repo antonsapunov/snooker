@@ -13,9 +13,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Snooker implements SnookerService{
-    static final String P = "p"; //TODO naming must be more descriptive.
+    static final String PLAYER_ID = "p";
     private static final String HTTP_API_SNOOKER_ORG = "http://api.snooker.org/";
-    private SnookerService snookerService;
+    private SnookerService mSnookerService;
 
     public Snooker() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -23,21 +23,21 @@ public class Snooker implements SnookerService{
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(HTTP_API_SNOOKER_ORG)
                 .build();
-        snookerService = retrofit.create(SnookerService.class);
+        mSnookerService = retrofit.create(SnookerService.class);
     }
 
     @Override
     public Observable<List<RankInfo>> getRanks() {
-        return snookerService.getRanks();
+        return mSnookerService.getRanks();
     }
 
     @Override
     public Observable<List<PlayerInfo>> getPlayers() {
-        return snookerService.getPlayers();
+        return mSnookerService.getPlayers();
     }
 
     @Override
-    public Observable<List<PlayerInfo>> getPlayer(@Query(P) int p) {
-        return snookerService.getPlayer(p);
+    public Observable<List<PlayerInfo>> getPlayer(@Query(PLAYER_ID) int player_id) {
+        return mSnookerService.getPlayer(player_id);
     }
 }

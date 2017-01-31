@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.MainActivity"/>
+        <activity android:name=".view.TopPlayersActivity"/>
         <activity android:name=".view.PlayerActivity"
-            android:parentActivityName=".view.MainActivity">
+            android:parentActivityName=".view.TopPlayersActivity">
         </activity>
     </application>
 </manifest>

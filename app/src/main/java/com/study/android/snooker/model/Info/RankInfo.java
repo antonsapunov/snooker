@@ -8,20 +8,22 @@ import io.realm.annotations.PrimaryKey;
 
 public class RankInfo extends RealmObject{
 
-    public static final String ID = "ID";
+    private static final String ID = "ID";
+    private static final String POSITION = "Position";
+    private static final String PLAYER_ID = "PlayerID";
+    private static final String SUM = "Sum";
 
     @SerializedName(ID)
     @Expose
     @PrimaryKey
     private Integer iD;
-    //TODO Use named constants instead of hardcoded strings.
-    @SerializedName("Position")
+    @SerializedName(POSITION)
     @Expose
     private Integer position;
-    @SerializedName("PlayerID")
+    @SerializedName(PLAYER_ID)
     @Expose
     private Integer playerID;
-    @SerializedName("Sum")
+    @SerializedName(SUM)
     @Expose
     private Integer sum;
 
@@ -51,5 +53,18 @@ public class RankInfo extends RealmObject{
         this.name = name;
     }
 
-    //TODO If you working with entity, it's considered like a best practice to override equals and hashcode methods.
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RankInfo rankInfo = (RankInfo) o;
+
+        return iD != null ? iD.equals(rankInfo.iD) : rankInfo.iD == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return iD != null ? iD.hashCode() : 0;
+    }
 }

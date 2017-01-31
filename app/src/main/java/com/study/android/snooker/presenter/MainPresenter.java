@@ -3,38 +3,38 @@ package com.study.android.snooker.presenter;
 import com.study.android.snooker.model.*;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
-import com.study.android.snooker.view.MainView;
+import com.study.android.snooker.view.TopPlayersView;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainPresenter implements MainPresenterInterface{
-    private final SnookerService snooker = new Snooker();
-    private final MainView mainView;
+    private final SnookerService mSnooker = new Snooker();
+    private final TopPlayersView mTopPlayersView;
     private final DatabaseActionsInterface mActions;
 
-    public MainPresenter(MainView view) {
-        mainView = view;
+    public MainPresenter(TopPlayersView view) {
+        mTopPlayersView = view;
         mActions = new DatabaseActions();
     }
 
     @Override
     public void getRankData() {
-        if (mainView.isOnline()) {
+        if (mTopPlayersView.isOnline()) {
             Observable.zip(
-                    snooker.getRanks().subscribeOn(Schedulers.io()),
-                    snooker.getPlayers().subscribeOn(Schedulers.io()),
+                    mSnooker.getRanks().subscribeOn(Schedulers.io()),
+                    mSnooker.getPlayers().subscribeOn(Schedulers.io()),
                     (rankInfos, playerInfos) -> {
                         for (RankInfo rankInfo : rankInfos) {
                             for (PlayerInfo playerInfo : playerInfos) {
                                 if (rankInfo.getPlayerID().equals(playerInfo.getID())) {
-                                    //TODO try to use String.format instead of + "" + concatenation
-                                    if (playerInfo.getSurnameFirst()) {
-                                        rankInfo.setName(playerInfo.getLastName() + " "
-                                                + playerInfo.getFirstName());
-                                    } else rankInfo.setName(playerInfo.getFirstName() + " "
-                                            + playerInfo.getLastName());
+
+                                    String playerName = String.format("%s %s",
+                                            playerInfo.getFirstName(), playerInfo.getLastName());
+                                    String inversedPlayerName = String.format("%s %s",
+                                            playerInfo.getLastName(), playerInfo.getFirstName());
+                                    rankInfo.setName(playerInfo.getSurnameFirst() ? inversedPlayerName : playerName);
                                     break;
                                 }
                             }
@@ -43,22 +43,22 @@ public class MainPresenter implements MainPresenterInterface{
                     }
             ).observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
-                    .doOnError(throwable -> mainView.error())
+                    .doOnError(throwable -> mTopPlayersView.error())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(bar -> mainView.progressBarDisable())
-                    .subscribe(mainView::setRanks);
+                    .doOnNext(bar -> mTopPlayersView.progressBarDisable())
+                    .subscribe(mTopPlayersView::setRanks);
         } else {
-            mainView.noConnection();
-            mainView.progressBarDisable();
+            mTopPlayersView.noConnection();
+            mTopPlayersView.progressBarDisable();
         }
-        mainView.swipeBarDisable();
+        mTopPlayersView.swipeBarDisable();
     }
 
     @Override
     public void getRankDataFromRealm(){
         if (mActions.hasRanks()) {
-            mainView.setRanks(mActions.getRanks());
-            mainView.progressBarDisable();
+            mTopPlayersView.setRanks(mActions.getRanks());
+            mTopPlayersView.progressBarDisable();
         }
         else getRankData();
     }

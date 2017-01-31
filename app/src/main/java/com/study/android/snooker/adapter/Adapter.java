@@ -13,19 +13,18 @@ import java.util.List;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-//TODO naming for variable class members. m s etc...
-    private List<RankInfo> ranks;
-    private Listener listener;
+    private List<RankInfo> mRanks;
+    private Listener mListener;
 
     public Adapter() {
     }
 
     public void setListRanks(List<RankInfo> ranks) {
-        this.ranks = ranks;
+        mRanks = ranks;
     }
 
     public void setListener(Listener listener){
-        this.listener = listener;
+        mListener = listener;
     }
 
     @Override
@@ -37,27 +36,27 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         View textView = holder.itemView;
-        RankInfo rank = ranks.get(position);
+        RankInfo rank = mRanks.get(position);
 
-        String mPositionField = String.valueOf(rank.getPosition()) + ". ";
-        String mNameField = rank.getName();
-        String mSumField = "£ " + String.valueOf(rank.getSum());
+        String positionField = String.valueOf(rank.getPosition()) + ". ";
+        String nameField = rank.getName();
+        String sumField = "£ " + String.valueOf(rank.getSum());
 
-        holder.mPosition.setText(mPositionField);
-        holder.mName.setText(mNameField);
-        holder.mSum.setText(mSumField);
+        holder.mPosition.setText(positionField);
+        holder.mName.setText(nameField);
+        holder.mSum.setText(sumField);
         textView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onClick(rank.getPlayerID());
+            if (mListener != null) {
+                mListener.onClick(rank.getPlayerID());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if (ranks == null)
+        if (mRanks == null)
             return 0;
-        return ranks.size();
+        return mRanks.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
