@@ -21,8 +21,9 @@ import com.study.android.snooker.presenter.MainPresenterInterface;
 import java.util.List;
 
 import io.realm.Realm;
-
+//TODO Naming must be more descriptive.
 public class MainActivity extends AppCompatActivity implements MainView{
+    //TODO access level must be more strict. use PRIVATE modifier.
     MainPresenterInterface mainPresenter = new MainPresenter(this);
     RecyclerView recyclerView;
     Adapter adapter;

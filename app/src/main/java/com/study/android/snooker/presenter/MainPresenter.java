@@ -29,6 +29,7 @@ public class MainPresenter implements MainPresenterInterface{
                         for (RankInfo rankInfo : rankInfos) {
                             for (PlayerInfo playerInfo : playerInfos) {
                                 if (rankInfo.getPlayerID().equals(playerInfo.getID())) {
+                                    //TODO try to use String.format instead of + "" + concatenation
                                     if (playerInfo.getSurnameFirst()) {
                                         rankInfo.setName(playerInfo.getLastName() + " "
                                                 + playerInfo.getFirstName());

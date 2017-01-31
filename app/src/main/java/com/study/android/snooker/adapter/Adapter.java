@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-
+//TODO naming for variable class members. m s etc...
     private List<RankInfo> ranks;
     private Listener listener;
 

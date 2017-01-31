@@ -62,6 +62,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         String mUrl = player.getURL();
         String mBioPage = player.getBioPage();
 
+        //TODO use ternary operator + string.format pattern instead of if else.
         if(player.getSurnameFirst()){
             getSupportActionBar().setTitle(mLastName + " " + mFirstName);
             fullName.setText(mLastName + " " + mMiddleName + " " + mFirstName);
@@ -69,7 +70,9 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             getSupportActionBar().setTitle(mFirstName + " " + mLastName);
             fullName.setText(mFirstName + " " + mMiddleName + " " + mLastName);
         }
+
         findViewById(R.id.forename).setVisibility(View.VISIBLE);
+        //TODO Why so complex, why not use mPhoto.isEmpty() ?
         if(mPhoto.equals("")) {
             findViewById(R.id.photo).setVisibility(View.GONE);
         } else {
@@ -112,6 +115,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             findViewById(R.id.bioPage).setVisibility(View.VISIBLE);
             bioPageLink.setText(R.string.snooker_org);
         }
+        //TODO allways remember about else block. What if you some of members was empty ?
 
         this.player = player;
     }
@@ -121,6 +125,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         try {
+            //TODO named constants instead of hardcode.
             String formattedTwitterAddress = "http://twitter.com/" + mTwitter;
             Intent browseTwitter = new Intent(Intent.ACTION_VIEW, Uri.parse(formattedTwitterAddress));
             startActivity(browseTwitter);

@@ -8,10 +8,13 @@ import io.realm.annotations.PrimaryKey;
 
 public class RankInfo extends RealmObject{
 
-    @SerializedName("ID")
+    public static final String ID = "ID";
+
+    @SerializedName(ID)
     @Expose
     @PrimaryKey
     private Integer iD;
+    //TODO Use named constants instead of hardcoded strings.
     @SerializedName("Position")
     @Expose
     private Integer position;
@@ -47,4 +50,6 @@ public class RankInfo extends RealmObject{
     public void setName(String name) {
         this.name = name;
     }
+
+    //TODO If you working with entity, it's considered like a best practice to override equals and hashcode methods.
 }

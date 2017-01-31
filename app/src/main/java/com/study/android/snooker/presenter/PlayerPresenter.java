@@ -25,7 +25,7 @@ public class PlayerPresenter implements PlayerPresenterInterface{
     }
 
     @Override
-    public void getPlayerData(int p) {
+    public void getPlayerData(int p/*TODO descriptive naming*/) {
         if (playerView.isOnline()) {
             Observable<List<PlayerInfo>> dataObservable = snooker.getPlayer(p);
             dataObservable.subscribeOn(Schedulers.computation())
