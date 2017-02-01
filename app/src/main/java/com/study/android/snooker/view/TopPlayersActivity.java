@@ -15,14 +15,14 @@ import android.widget.Toast;
 import com.study.android.snooker.adapter.Adapter;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.RankInfo;
-import com.study.android.snooker.presenter.MainPresenter;
-import com.study.android.snooker.presenter.MainPresenterInterface;
+import com.study.android.snooker.presenter.TopPlayersPresenter;
+import com.study.android.snooker.presenter.TopPlayersPresenterInterface;
 
 import java.util.List;
 
 import io.realm.Realm;
 public class TopPlayersActivity extends AppCompatActivity implements TopPlayersView {
-    private MainPresenterInterface mMainPresenter = new MainPresenter(this);
+    private TopPlayersPresenterInterface mTopPlayersPresenter = new TopPlayersPresenter(this);
     private Adapter mAdapter;
     private SwipeRefreshLayout mSwipe;
 
@@ -40,8 +40,8 @@ public class TopPlayersActivity extends AppCompatActivity implements TopPlayersV
         mAdapter = new Adapter();
         recyclerView.setAdapter(mAdapter);
 
-        mMainPresenter.getRankDataFromRealm();
-        mSwipe.setOnRefreshListener(() -> mMainPresenter.getRankData());
+        mTopPlayersPresenter.getRankDataFromRealm();
+        mSwipe.setOnRefreshListener(() -> mTopPlayersPresenter.getRankData());
 
         mAdapter.setListener(this::startInfoActivity);
     }

@@ -1,6 +1,6 @@
 package com.study.android.snooker.presenter;
 
-public interface MainPresenterInterface {
+public interface TopPlayersPresenterInterface {
     void getRankData();
     void getRankDataFromRealm();
 }

@@ -125,11 +125,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         } else makeGone(R.id.bioPage);
     }
 
-    public void makeVisible(int layoutId){
+    private void makeVisible(int layoutId){
         findViewById(layoutId).setVisibility(View.VISIBLE);
     }
 
-    public void makeGone(int layoutId){
+    private void makeGone(int layoutId){
         findViewById(layoutId).setVisibility(View.GONE);
     }
 

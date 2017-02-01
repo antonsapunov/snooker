@@ -9,12 +9,12 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainPresenter implements MainPresenterInterface{
+public class TopPlayersPresenter implements TopPlayersPresenterInterface {
     private final SnookerService mSnooker = new Snooker();
     private final TopPlayersView mTopPlayersView;
     private final DatabaseActionsInterface mActions;
 
-    public MainPresenter(TopPlayersView view) {
+    public TopPlayersPresenter(TopPlayersView view) {
         mTopPlayersView = view;
         mActions = new DatabaseActions();
     }
