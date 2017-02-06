@@ -43,10 +43,9 @@ public class TopPlayersPresenter implements TopPlayersPresenterInterface {
                     }
             ).observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
-                    .doOnError(throwable -> mTopPlayersView.error())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(bar -> mTopPlayersView.progressBarDisable())
-                    .subscribe(mTopPlayersView::setRanks);
+                    .subscribe(mTopPlayersView::setRanks, throwable -> mTopPlayersView.error());
         } else {
             mTopPlayersView.noConnection();
             mTopPlayersView.progressBarDisable();

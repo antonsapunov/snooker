@@ -11,6 +11,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class PlayerPresenter implements PlayerPresenterInterface{
@@ -31,9 +32,9 @@ public class PlayerPresenter implements PlayerPresenterInterface{
             dataObservable.subscribeOn(Schedulers.computation())
                     .observeOn(Schedulers.computation())
                     .doOnNext(mActions::writeToRealm)
-                    .doOnError(throwable -> mPlayerView.error())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(playerInfos -> mPlayerView.setPlayer(playerInfos.get(INDEX_OF_FIRST_ELEMENT)));
+                    .subscribe(playerInfos -> mPlayerView.setPlayer(playerInfos.get(INDEX_OF_FIRST_ELEMENT)),
+                            throwable -> mPlayerView.error());
         } else {
             mPlayerView.noConnection();
             mPlayerView.progressBarDisable();
