@@ -5,18 +5,24 @@ import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.view.TopPlayersView;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+@EBean
 public class TopPlayersPresenter implements TopPlayersPresenterInterface {
-    private final SnookerService mSnooker = new Snooker();
-    private final TopPlayersView mTopPlayersView;
-    private final DatabaseActionsInterface mActions;
+    @Bean(Snooker.class)
+    SnookerService mSnooker;
+    @Bean(DatabaseActions.class)
+    DatabaseActionsInterface mActions;
+    private TopPlayersView mTopPlayersView;
 
-    public TopPlayersPresenter(TopPlayersView view) {
+    @Override
+    public void setView(TopPlayersView view) {
         mTopPlayersView = view;
-        mActions = new DatabaseActions();
     }
 
     @Override

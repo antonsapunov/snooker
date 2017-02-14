@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,32 +17,43 @@ import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.presenter.TopPlayersPresenter;
 import com.study.android.snooker.presenter.TopPlayersPresenterInterface;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.List;
 
 import io.realm.Realm;
+
+@EActivity(R.layout.activity_main)
 public class TopPlayersActivity extends AppCompatActivity implements TopPlayersView {
-    private TopPlayersPresenterInterface mTopPlayersPresenter = new TopPlayersPresenter(this);
-    private Adapter mAdapter;
-    private SwipeRefreshLayout mSwipe;
+    @Bean(TopPlayersPresenter.class)
+    TopPlayersPresenterInterface mTopPlayersPresenter;
+    @Bean
+    Adapter mAdapter;
+    @ViewById(R.id.swipe)
+    SwipeRefreshLayout mSwipe;
+    @ViewById(R.id.ranks_recycle_view)
+    RecyclerView mRecyclerView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterInject
+    protected void inject() {
         Realm.init(this);
-        setContentView(R.layout.activity_main);
+        mTopPlayersPresenter.setView(this);
+    }
 
-        mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ranks_recycle_view);
+    @AfterViews
+    protected void afterviews() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new Adapter();
-        recyclerView.setAdapter(mAdapter);
-
+        mRecyclerView.setAdapter(mAdapter);
         mTopPlayersPresenter.getRankDataFromRealm();
-        mSwipe.setOnRefreshListener(() -> mTopPlayersPresenter.getRankData());
-
         mAdapter.setListener(this::startInfoActivity);
+
+        mSwipe.setOnRefreshListener(() -> mTopPlayersPresenter.getRankData());
     }
 
     @Override
@@ -84,8 +94,8 @@ public class TopPlayersActivity extends AppCompatActivity implements TopPlayersV
     }
 
     private void startInfoActivity(int playerID) {
-        Intent intent = new Intent(this, PlayerActivity.class);
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, playerID);
+        Intent intent = new Intent(this, PlayerActivity_.class);
+        intent.putExtra(PlayerActivity_.EXTRA_PLAYER_ID, playerID);
         startActivity(intent);
     }
 }

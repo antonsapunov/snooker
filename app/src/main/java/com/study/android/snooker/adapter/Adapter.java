@@ -9,14 +9,16 @@ import android.widget.TextView;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.RankInfo;
 
+import org.androidannotations.annotations.EBean;
+
 import java.util.List;
 
-
+@EBean
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<RankInfo> mRanks;
     private Listener mListener;
 
-    public Adapter() {
+    Adapter() {
     }
 
     public void setListRanks(List<RankInfo> ranks) {

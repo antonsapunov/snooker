@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,22 +21,49 @@ import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.presenter.PlayerPresenter;
 import com.study.android.snooker.presenter.PlayerPresenterInterface;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.activity_player)
 public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
     public static final String EXTRA_PLAYER_ID = "playerID";
     public static final String HTTP_TWITTER_COM = "http://twitter.com/";
     public static final String HTTP = "http://";
-    private PlayerPresenterInterface mPlayerPresenter = new PlayerPresenter(this);
     private PlayerInfo mPlayer;
-    private SwipeRefreshLayout mSwipe;
+    @Bean(PlayerPresenter.class)
+    PlayerPresenterInterface mPlayerPresenter;
+    @ViewById(R.id.swipePlayer)
+    SwipeRefreshLayout mSwipe;
+    @ViewById(R.id.picture)
+    ImageView mImageView;
+    @ViewById(R.id.fullName)
+    TextView mFullNameView;
+    @ViewById(R.id.birthday)
+    TextView mBirthdayView;
+    @ViewById(R.id.nationality)
+    TextView mNationalityView;
+    @ViewById(R.id.twitter)
+    TextView mTwitterView;
+    @ViewById(R.id.urlName)
+    TextView mUrlView;
+    @ViewById(R.id.bioPageLink)
+    TextView mBioPageView;
+    @Extra
+    int playerID;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+    @AfterInject
+    protected  void inject() {
+        mPlayerPresenter.setView(this);
+    }
+    @AfterViews
+    protected void afterviews() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mSwipe = (SwipeRefreshLayout) findViewById(R.id.swipePlayer);
-        int playerID = (int) getIntent().getExtras().get(EXTRA_PLAYER_ID);
 
         mPlayerPresenter.getPlayerDataFromRealm(playerID);
         mSwipe.setOnRefreshListener(() -> mPlayerPresenter.getPlayerData(playerID));
@@ -45,10 +71,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
     @Override
     public void setPlayer(PlayerInfo player) {
-
         mPlayer = player;
-
-        ImageView imageView = (ImageView) findViewById(R.id.picture);
         String photo = player.getPhoto();
         if(photo.isEmpty()) {
             makeGone(R.id.photo);
@@ -70,9 +93,8 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
                             return false;
                         }
                     })
-                    .into(imageView);
+                    .into(mImageView);
         }
-        TextView fullNameView = (TextView) findViewById(R.id.fullName);
         String firstName = player.getFirstName();
         String middleName = player.getMiddleName();
         String lastName = player.getLastName();
@@ -85,54 +107,62 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         String inversedFullPlayerName = String.format("%s %s %s", lastName, middleName, firstName);
         if(!fullPlayerName.isEmpty()) {
             makeVisible(R.id.full);
-            fullNameView.setText(player.getSurnameFirst() ? inversedFullPlayerName : fullPlayerName);
-        } else makeGone(R.id.full);
+            mFullNameView.setText(player.getSurnameFirst() ? inversedFullPlayerName : fullPlayerName);
+        } else {
+            makeGone(R.id.full);
+        }
 
-        TextView birthdayView = (TextView) findViewById(R.id.birthday);
         String born = player.getBorn();
         if(!born.isEmpty()) {
             makeVisible(R.id.birth);
-            birthdayView.setText(born);
-        } else makeGone(R.id.birth);
+            mBirthdayView.setText(born);
+        } else {
+            makeGone(R.id.birth);
+        }
 
-        TextView nationalityView = (TextView) findViewById(R.id.nationality);
         String nationality = player.getNationality();
         if(!nationality.isEmpty()) {
             makeVisible(R.id.nat);
-            nationalityView.setText(nationality);
-        } else makeGone(R.id.nat);
+            mNationalityView.setText(nationality);
+        } else {
+            makeGone(R.id.nat);
+        }
 
-        TextView twitterView = (TextView) findViewById(R.id.twitter);
         String twitter = player.getTwitter();
         if(!twitter.isEmpty()) {
             makeVisible(R.id.twit);
-            twitterView.setText(twitter);
-        } else makeGone(R.id.twit);
+            mTwitterView.setText(twitter);
+        } else {
+            makeGone(R.id.twit);
+        }
 
-        TextView urlView = (TextView) findViewById(R.id.urlName);
         String url = player.getURL();
         if(!url.isEmpty()) {
             makeVisible(R.id.url);
-            urlView.setText(url);
-        } else makeGone(R.id.url);
+            mUrlView.setText(url);
+        } else {
+            makeGone(R.id.url);
+        }
 
-        TextView bioPageView = (TextView) findViewById(R.id.bioPageLink);
         String bioPage = player.getBioPage();
 
         if(!bioPage.isEmpty()) {
             makeVisible(R.id.bioPage);
-            bioPageView.setText(R.string.snooker);
-        } else makeGone(R.id.bioPage);
+            mBioPageView.setText(R.string.snooker);
+        } else {
+            makeGone(R.id.bioPage);
+        }
     }
 
     private void makeVisible(int layoutId){
         findViewById(layoutId).setVisibility(View.VISIBLE);
     }
 
-    private void makeGone(int layoutId){
+    public void makeGone(int layoutId){
         findViewById(layoutId).setVisibility(View.GONE);
     }
 
+    @Click(R.id.twitter)
     public void onTwitter(View view) {
         String mTwitter = mPlayer.getTwitter();
         Intent intent = new Intent();
@@ -145,7 +175,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             e.printStackTrace();
         }
     }
-
+    @Click(R.id.urlName)
     public void onUrl(View view) {
         String mUrl = mPlayer.getURL();
         Intent intent = new Intent();
@@ -158,7 +188,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             e.printStackTrace();
         }
     }
-
+    @Click(R.id.bioPageLink)
     public void onBioPage(View view) {
         String mBioPage = mPlayer.getBioPage();
         Intent intent = new Intent();
@@ -194,7 +224,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
 
     @Override
     public void progressBarDisable() {
-        findViewById(R.id.progressBar).setVisibility(View.GONE);
+        makeGone(R.id.progressBar);
     }
 
     @Override

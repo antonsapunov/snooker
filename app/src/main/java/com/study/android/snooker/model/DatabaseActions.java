@@ -3,11 +3,14 @@ package com.study.android.snooker.model;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 
+import org.androidannotations.annotations.EBean;
+
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 
+@EBean
 public class DatabaseActions implements DatabaseActionsInterface{
 
     @Override

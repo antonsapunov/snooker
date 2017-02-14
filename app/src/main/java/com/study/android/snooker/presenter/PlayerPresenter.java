@@ -7,22 +7,27 @@ import com.study.android.snooker.model.Snooker;
 import com.study.android.snooker.model.SnookerService;
 import com.study.android.snooker.view.PlayerView;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
 import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+@EBean
 public class PlayerPresenter implements PlayerPresenterInterface{
+    @Bean(Snooker.class)
+    SnookerService mSnooker;
+    @Bean(DatabaseActions.class)
+    DatabaseActionsInterface mActions;
     private static final int INDEX_OF_FIRST_ELEMENT = 0;
-    private final SnookerService mSnooker = new Snooker();
-    private final PlayerView mPlayerView;
-    private final DatabaseActionsInterface mActions;
+    private PlayerView mPlayerView;
 
-    public PlayerPresenter(PlayerView view) {
+    @Override
+    public void setView(PlayerView view) {
         mPlayerView = view;
-        mActions = new DatabaseActions();
     }
 
     @Override
@@ -41,10 +46,15 @@ public class PlayerPresenter implements PlayerPresenterInterface{
         }
         mPlayerView.swipeBarDisable();
     }
+
     @Override
     public void getPlayerDataFromRealm(int player_id) {
-        if (mActions.hasPlayer(player_id))
+        if (mActions.hasPlayer(player_id)) {
             mPlayerView.setPlayer(mActions.getPlayer(player_id).get(INDEX_OF_FIRST_ELEMENT));
-        else getPlayerData(player_id);
+        }
+        else {
+            getPlayerData(player_id);
+        }
     }
+
 }

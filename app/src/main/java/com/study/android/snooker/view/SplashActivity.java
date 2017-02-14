@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity{
 
         int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(() -> {
-            Intent mainIntent = new Intent(SplashActivity.this,TopPlayersActivity.class);
+            Intent mainIntent = new Intent(SplashActivity.this,TopPlayersActivity_.class);
             SplashActivity.this.startActivity(mainIntent);
             SplashActivity.this.finish();
         }, SPLASH_DISPLAY_LENGTH);

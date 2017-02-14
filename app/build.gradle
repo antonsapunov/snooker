@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
+apply plugin: 'android-apt'
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.3"
@@ -26,6 +27,9 @@ android {
 }
 
 dependencies {
+    apt "org.androidannotations:androidannotations:4.2.0"
+    compile "org.androidannotations:androidannotations-api:4.2.0"
+
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
