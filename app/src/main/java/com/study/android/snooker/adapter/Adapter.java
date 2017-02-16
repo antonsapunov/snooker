@@ -40,9 +40,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         View textView = holder.itemView;
         RankInfo rank = mRanks.get(position);
 
-        String positionField = String.valueOf(rank.getPosition()) + ". ";
+        String positionField = String.valueOf(rank.getPosition()) + ". ";//TODO Why so complex. Use String.format for all concatenations instead.
         String nameField = rank.getName();
-        String sumField = "£ " + String.valueOf(rank.getSum());
+        String sumField = String.format("£ %d", rank.getSum());
 
         holder.mPosition.setText(positionField);
         holder.mName.setText(nameField);

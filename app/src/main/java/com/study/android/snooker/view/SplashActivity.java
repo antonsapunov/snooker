@@ -7,11 +7,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity{
+
+    private final static int SPLASH_DISPLAY_LENGTH = 1000;//TODO If you need a constant use  final static.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(() -> {
             Intent mainIntent = new Intent(SplashActivity.this,TopPlayersActivity_.class);
             SplashActivity.this.startActivity(mainIntent);
