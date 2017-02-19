@@ -14,10 +14,10 @@ import io.realm.RealmObject;
 public class DatabaseActions implements DatabaseActionsInterface{
 
     @Override
-    public <T extends RealmObject> void writeToRealm(List<T> rankInfos) {
+    public <T extends RealmObject> void writeToRealm(List<T> info) {
         Realm realm = Realm.getDefaultInstance();
-        for (T rankInfo : rankInfos) {
-            realm.executeTransaction(transaction -> realm.copyToRealmOrUpdate(rankInfo));
+        for (T element : info) {
+            realm.executeTransaction(transaction -> realm.copyToRealmOrUpdate(element));
         }
         realm.close();
     }

@@ -46,9 +46,7 @@ public class TopPlayersActivity extends AppCompatActivity implements TopPlayersV
 
     @AfterViews
     protected void afterviews() {
-        //TODO Did you see a practice to set final for all local scope fields ?
-        //That help GC collect objects faster and avoid of reuse in different context.
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -95,9 +93,9 @@ public class TopPlayersActivity extends AppCompatActivity implements TopPlayersV
         Toast.makeText(this, R.string.Error, Toast.LENGTH_LONG).show();
     }
 
-    private void startInfoActivity(int playerID /*TODO naming camelCase notation -> playerId*/) {
+    private void startInfoActivity(int playerId) {
         Intent intent = new Intent(this, PlayerActivity_.class);
-        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, playerID);
+        intent.putExtra(PlayerActivity.EXTRA_PLAYER_ID, playerId);
         startActivity(intent);
     }
 }

@@ -42,7 +42,6 @@ public class PlayerPresenter implements PlayerPresenterInterface{
                             throwable -> mPlayerView.error());
         } else {
             mPlayerView.noConnection();
-            mPlayerView.progressBarDisable();
         }
         mPlayerView.swipeBarDisable();
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import io.realm.RealmObject;
 
 public interface DatabaseActionsInterface {
-    <T extends RealmObject> void writeToRealm(List<T> rankInfos);
+    <T extends RealmObject> void writeToRealm(List<T> info);
 
     List<RankInfo> getRanks();
     List<PlayerInfo> getPlayer(int iD);

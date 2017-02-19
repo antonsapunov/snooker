@@ -8,14 +8,8 @@ import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.presenter.PlayerPresenter;
@@ -40,20 +34,20 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     PlayerPresenterInterface mPlayerPresenter;
     @ViewById(R.id.swipePlayer)
     SwipeRefreshLayout mSwipe;
-    @ViewById(R.id.picture)
-    ImageView mImageView;
-    @ViewById(R.id.fullName)
-    TextView mFullNameView;
-    @ViewById(R.id.birthday)
-    TextView mBirthdayView;
-    @ViewById(R.id.nationality)
-    TextView mNationalityView;
-    @ViewById(R.id.twitter)
-    TextView mTwitterView;
-    @ViewById(R.id.urlName)
-    TextView mUrlView;
-    @ViewById(R.id.bioPageLink)
-    TextView mBioPageView;
+    @ViewById
+    PlayerImageItemView player_image;
+    @ViewById
+    PlayerMainItemView player_info_name;
+    @ViewById
+    PlayerMainItemView player_info_birthday;
+    @ViewById
+    PlayerMainItemView player_info_nationality;
+    @ViewById
+    PlayerLinksItemView player_link_twitter;
+    @ViewById
+    PlayerLinksItemView player_link_url;
+    @ViewById
+    PlayerLinksItemView player_link_bio_page;
     @Extra
     int playerID;
 
@@ -72,29 +66,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     @Override
     public void setPlayer(PlayerInfo player) {
         mPlayer = player;
-        String photo = player.getPhoto();
-        if(photo.isEmpty()) {
-            makeGone(R.id.photo);
-        } else {
-            Glide.with(this)
-                    .load(photo)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-                                                   boolean isFirstResource) {
-                            return false;
-                        }
 
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model,
-                                                       Target<GlideDrawable> target, boolean isFromMemoryCache,
-                                                       boolean isFirstResource) {
-                            makeGone(R.id.progressBar);
-                            return false;
-                        }
-                    })
-                    .into(mImageView);
-        }
         String firstName = player.getFirstName();
         String middleName = player.getMiddleName();
         String lastName = player.getLastName();
@@ -103,66 +75,25 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
         String inversedPlayerName = String.format("%s %s", lastName, firstName);
         getSupportActionBar().setTitle(player.getSurnameFirst() ? inversedPlayerName : playerName);
 
+        String photo = player.getPhoto();
+        player_image.setData(photo);
+
         String fullPlayerName = String.format("%s %s %s", firstName, middleName, lastName);
         String inversedFullPlayerName = String.format("%s %s %s", lastName, middleName, firstName);
-        if(!fullPlayerName.isEmpty()) {
-            makeVisible(R.id.full);
-            mFullNameView.setText(player.getSurnameFirst() ? inversedFullPlayerName : fullPlayerName);
-        } else {
-            makeGone(R.id.full);
-        }
-
+        player_info_name.setData(R.string.fullName, player.getSurnameFirst() ? inversedFullPlayerName : fullPlayerName);
         String born = player.getBorn();
-        if(!born.isEmpty()) {
-            makeVisible(R.id.birth);
-            mBirthdayView.setText(born);
-        } else {
-            makeGone(R.id.birth);
-        }
-
+        player_info_birthday.setData(R.string.birth, born);
         String nationality = player.getNationality();
-        if(!nationality.isEmpty()) {
-            makeVisible(R.id.nat);
-            mNationalityView.setText(nationality);
-        } else {
-            makeGone(R.id.nat);
-        }
-
+        player_info_nationality.setData(R.string.nationality, nationality);
         String twitter = player.getTwitter();
-        if(!twitter.isEmpty()) {
-            makeVisible(R.id.twit);
-            mTwitterView.setText(twitter);
-        } else {
-            makeGone(R.id.twit);
-        }
-
+        player_link_twitter.setData(R.string.twitter, twitter);
         String url = player.getURL();
-        if(!url.isEmpty()) {
-            makeVisible(R.id.url);
-            mUrlView.setText(url);
-        } else {
-            makeGone(R.id.url);
-        }
-
+        player_link_url.setData(R.string.url, url);
         String bioPage = player.getBioPage();
-
-        if(!bioPage.isEmpty()) {
-            makeVisible(R.id.bioPage);
-            mBioPageView.setText(R.string.snooker);
-        } else {
-            makeGone(R.id.bioPage);
-        }
+        player_link_bio_page.setData(R.string.bio_page, bioPage);
     }
 
-    private void makeVisible(int layoutId){
-        findViewById(layoutId).setVisibility(View.VISIBLE);
-    }
-
-    public void makeGone(int layoutId){
-        findViewById(layoutId).setVisibility(View.GONE);
-    }
-
-    @Click(R.id.twitter)
+    @Click(R.id.player_link_twitter)
     public void onTwitter(View view) {
         String mTwitter = mPlayer.getTwitter();
         Intent intent = new Intent();
@@ -175,7 +106,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             e.printStackTrace();
         }
     }
-    @Click(R.id.urlName)
+    @Click(R.id.player_link_url)
     public void onUrl(View view) {
         String mUrl = mPlayer.getURL();
         Intent intent = new Intent();
@@ -188,7 +119,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
             e.printStackTrace();
         }
     }
-    @Click(R.id.bioPageLink)
+    @Click(R.id.player_link_bio_page)
     public void onBioPage(View view) {
         String mBioPage = mPlayer.getBioPage();
         Intent intent = new Intent();
@@ -220,11 +151,6 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     @Override
     public void swipeBarDisable() {
         mSwipe.setRefreshing(false);
-    }
-
-    @Override
-    public void progressBarDisable() {
-        makeGone(R.id.progressBar);
     }
 
     @Override
