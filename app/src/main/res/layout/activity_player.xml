@@ -22,7 +22,7 @@
 
             <com.study.android.snooker.view.PlayerImageItemView_
                 style="@style/wrapContent"
-                android:id="@+id/player_image_item">
+                android:id="@+id/player_image">
             </com.study.android.snooker.view.PlayerImageItemView_>
             <com.study.android.snooker.view.PlayerMainItemView_
                 style="@style/wrapContent"
