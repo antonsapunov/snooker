@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.study.android.snooker.App;
 import com.study.android.snooker.adapter.Adapter;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.RankInfo;
-import com.study.android.snooker.presenter.TopPlayersPresenter;
 import com.study.android.snooker.presenter.TopPlayersPresenterInterface;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -25,11 +25,11 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import io.realm.Realm;
+import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
 public class TopPlayersActivity extends AppCompatActivity implements TopPlayersView {
-    @Bean(TopPlayersPresenter.class)
+    @Inject
     TopPlayersPresenterInterface mTopPlayersPresenter;
     @Bean
     Adapter mAdapter;
@@ -38,9 +38,10 @@ public class TopPlayersActivity extends AppCompatActivity implements TopPlayersV
     @ViewById(R.id.ranks_recycle_view)
     RecyclerView mRecyclerView;
 
-    @AfterInject
-    protected void inject() {
-        Realm.init(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getComponent().inject(this);
         mTopPlayersPresenter.setView(this);
     }
 

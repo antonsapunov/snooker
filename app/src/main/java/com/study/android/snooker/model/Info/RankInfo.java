@@ -41,6 +41,10 @@ public class RankInfo extends RealmObject{
         return playerID;
     }
 
+    public void setPlayerID(Integer playerID) {
+        this.playerID = playerID;
+    }
+
     public Integer getSum() {
         return sum;
     }

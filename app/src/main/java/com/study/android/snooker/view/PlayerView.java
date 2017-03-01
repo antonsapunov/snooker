@@ -6,6 +6,7 @@ public interface PlayerView {
     void setPlayer(PlayerInfo player);
     void noConnection();
     void swipeBarDisable();
+    void progressBarDisable();
     void error();
     boolean isOnline();
 }

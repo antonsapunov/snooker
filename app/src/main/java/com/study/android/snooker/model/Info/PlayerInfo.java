@@ -59,6 +59,10 @@ public class PlayerInfo extends RealmObject{
         return iD;
     }
 
+    public void setiD(Integer iD) {
+        this.iD = iD;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -89,6 +93,10 @@ public class PlayerInfo extends RealmObject{
 
     public Boolean getSurnameFirst() {
         return surnameFirst;
+    }
+
+    public void setSurnameFirst(Boolean surnameFirst) {
+        this.surnameFirst = surnameFirst;
     }
 
     public String getURL() {

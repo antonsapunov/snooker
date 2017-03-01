@@ -5,23 +5,24 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.study.android.snooker.App;
 import com.study.android.snooker.R;
 import com.study.android.snooker.model.Info.PlayerInfo;
-import com.study.android.snooker.presenter.PlayerPresenter;
 import com.study.android.snooker.presenter.PlayerPresenterInterface;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import javax.inject.Inject;
 
 @EActivity(R.layout.activity_player)
 public class PlayerActivity extends AppCompatActivity implements PlayerView{
@@ -30,7 +31,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     public static final String HTTP_TWITTER_COM = "http://twitter.com/";
     public static final String HTTP = "http://";
     private PlayerInfo mPlayer;
-    @Bean(PlayerPresenter.class)
+    @Inject
     PlayerPresenterInterface mPlayerPresenter;
     @ViewById(R.id.swipePlayer)
     SwipeRefreshLayout mSwipe;
@@ -51,8 +52,10 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     @Extra
     int playerID;
 
-    @AfterInject
-    protected  void inject() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getComponent().inject(this);
         mPlayerPresenter.setView(this);
     }
     @AfterViews
@@ -151,6 +154,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerView{
     @Override
     public void swipeBarDisable() {
         mSwipe.setRefreshing(false);
+    }
+
+    @Override
+    public void progressBarDisable() {
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
     @Override

@@ -5,21 +5,19 @@ import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 import com.study.android.snooker.view.TopPlayersView;
 
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EBean;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-@EBean
 public class TopPlayersPresenter implements TopPlayersPresenterInterface {
-    @Bean(Snooker.class)
-    SnookerService mSnooker;
-    @Bean(DatabaseActions.class)
-    DatabaseActionsInterface mActions;
+    private SnookerService mSnooker;
+    private DatabaseActionsInterface mActions;
     private TopPlayersView mTopPlayersView;
 
+    public TopPlayersPresenter (SnookerService snooker, DatabaseActionsInterface actions){
+        mSnooker = snooker;
+        mActions = actions;
+    }
     @Override
     public void setView(TopPlayersView view) {
         mTopPlayersView = view;
@@ -29,8 +27,8 @@ public class TopPlayersPresenter implements TopPlayersPresenterInterface {
     public void getRankData() {
         if (mTopPlayersView.isOnline()) {
             Observable.zip(
-                    mSnooker.getRanks().subscribeOn(Schedulers.io()),
-                    mSnooker.getPlayers().subscribeOn(Schedulers.io()),
+                    mSnooker.getRanks(),
+                    mSnooker.getPlayers(),
                     (rankInfos, playerInfos) -> {
                         for (RankInfo rankInfo : rankInfos) {
                             for (PlayerInfo playerInfo : playerInfos) {
@@ -47,8 +45,8 @@ public class TopPlayersPresenter implements TopPlayersPresenterInterface {
                         }
                         return rankInfos;
                     }
-            ).observeOn(Schedulers.computation())
-                    .doOnNext(mActions::writeToRealm)
+            ).doOnNext(mActions::writeToRealm)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(bar -> mTopPlayersView.progressBarDisable())
                     .subscribe(mTopPlayersView::setRanks, throwable -> mTopPlayersView.error());

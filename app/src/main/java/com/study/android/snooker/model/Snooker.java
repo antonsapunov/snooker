@@ -3,8 +3,6 @@ package com.study.android.snooker.model;
 import com.study.android.snooker.model.Info.PlayerInfo;
 import com.study.android.snooker.model.Info.RankInfo;
 
-import org.androidannotations.annotations.EBean;
-
 import java.util.List;
 
 import retrofit2.http.Query;
@@ -14,13 +12,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@EBean
 public class Snooker implements SnookerService{
     static final String PLAYER_ID = "p";
     private static final String HTTP_API_SNOOKER_ORG = "http://api.snooker.org/";
     private SnookerService mSnookerService;
 
-    Snooker() {
+    public Snooker() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

@@ -27,6 +27,15 @@ android {
 }
 
 dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.2.2"
+    testCompile "org.mockito:mockito-core:2.0.57-beta"
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+
+    apt 'com.google.dagger:dagger-compiler:2.8'
+    compile 'com.google.dagger:dagger:2.8'
+    provided 'javax.annotation:jsr250-api:1.0'
+
     apt "org.androidannotations:androidannotations:4.2.0"
     compile "org.androidannotations:androidannotations-api:4.2.0"
 
@@ -35,7 +44,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxjava:1.2.6'
 
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.github.bumptech.glide:glide:3.5.2'
